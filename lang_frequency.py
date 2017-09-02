@@ -28,4 +28,6 @@ if __name__ == '__main__':
     clean_text = remove_symbols(text).lower()
     words_list = clean_text.split(' ')
     words_list = [value for value in words_list if value]  # delete empty elements
-    print(Counter(words_list).most_common(10))
+    words_top = Counter(words_list).most_common(10)
+    for word, count in words_top:
+        print('{}  founded {} times'.format(word,count))
