@@ -1,43 +1,31 @@
 import os
-import re
+import string
+
+from collections import Counter
 
 
 def load_data(filepath):
     if not os.path.exists(filepath):
         return None
-    with open(filepath, mode='r') as my_file:
-        text = re.split(' |\n', my_file.read())
-        return text
-
-
-def remove_symbols(text):
-    symbols = '!@#$%^&*()_+-=0987654321:;"?/>.<,| \n'
-    for symbol in symbols:
-        text = text.replace(symbol, '')
+    with open(filepath, 'r') as input_file:
+        text = input_file.read()
     return text
 
 
-def get_most_frequent_words(text):
-    words_chart = {}
-    for word in text:
-        word = word.lower()
-        word = remove_symbols(word)
-        if not word:  # if was only symbols
-            continue
-        if word in words_chart:
-            words_chart[word] += 1
-        else:
-            words_chart[word] = 1
-    return words_chart
+def remove_symbols(text):
+    symbols = string.punctuation + string.digits + '\n'
+    for symbol in symbols:
+        text = text.replace(symbol, ' ')
+    return text
 
 
 if __name__ == '__main__':
-    print('Enter filepath to your database:')
-    path = input()
+    path = input('Enter filepath to your file:')
     text = load_data(path)
-    if not text:
-        print('File not found, sorry...')
+    if text is None:
+        print('No such file or directory.')
         raise SystemExit
-    most_frequent_words = get_most_frequent_words(text)
-    for word in sorted(most_frequent_words, key=lambda word: most_frequent_words[word], reverse=True):
-        print(word, most_frequent_words[word])
+    clean_text = remove_symbols(text).lower()
+    words_list = clean_text.split(' ')
+    words_list = [value for value in words_list if value]  # delete empty elements
+    print(Counter(words_list).most_common(10))
