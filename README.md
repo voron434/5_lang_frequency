@@ -6,6 +6,7 @@ This little script could find top-10 most popular words in any text you like.
 
     $python3 lang_frequency.py  
     Enter filepath to your file:The Hunger Games.txt
+    How many words do you want to check?10
     the  founded 5651 times
     i  founded 3786 times
     to  founded 2754 times
